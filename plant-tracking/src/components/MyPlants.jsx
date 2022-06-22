@@ -8,3 +8,4 @@ const MyPlants = ({ data }) => {
 }
 
 export default MyPlants;
+

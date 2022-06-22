@@ -24,13 +24,11 @@ const AllPlants = ({ plants }) => {
     fetch('/allPlants')
     .then((res) => res.json())
     .then((results) => {
-      console.log('results?', results)
+      // console.log('results?', results)
       setData(results);
     })
-
   }
 
-  // eslint-disable-next-line no-lone-blocks
   function handlePageClick({ selected: selectedPage }) {
     console.log('selected page', selectedPage);
     setCurrentPage(selectedPage);
@@ -61,17 +59,7 @@ const AllPlants = ({ plants }) => {
     <div className="plantlist">
 
       {/* <Pagination platData={plants} ></Pagination> */}
-      <Headers>
-        <EachPlantInfo>Name</EachPlantInfo>
-        <EachPlantInfo>Alternate Name</EachPlantInfo>
-        <IdealLight>Ideal Light</IdealLight>
-        <EachPlantWatering>Watering</EachPlantWatering>
-        <EachPlantInfo>Tolerated Light</EachPlantInfo>
-        <EachPlantInfo>Add to Favorites</EachPlantInfo>
-      </Headers>
-      {currentPageData}
-      {/* <PaginateContainer> */}
-        <ReactPaginate
+      <ReactPaginate
           previousLabel={"← Previous"}
           nextLabel={"Next →"}
           pageCount={pageCount}
@@ -82,6 +70,27 @@ const AllPlants = ({ plants }) => {
           disabledClassName={"pagination__link--disabled"}
           activeClassName={"pagination__link--active"}
         />
+      <Headers>
+        <EachPlantInfo>Name</EachPlantInfo>
+        <EachPlantInfo>Alternate Name</EachPlantInfo>
+        <IdealLight>Ideal Light</IdealLight>
+        <EachPlantWatering>Watering</EachPlantWatering>
+        <EachPlantInfo>Tolerated Light</EachPlantInfo>
+        <EachPlantInfo>Add to Favorites</EachPlantInfo>
+      </Headers>
+      {currentPageData}
+      {/* <PaginateContainer> */}
+        {/* <ReactPaginate
+          previousLabel={"← Previous"}
+          nextLabel={"Next →"}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          previousLinkClassName={"pagination__link"}
+          nextLinkClassName={"pagination__link"}
+          disabledClassName={"pagination__link--disabled"}
+          activeClassName={"pagination__link--active"}
+        /> */}
       {/* </PaginateContainer> */}
 {/*
       <div>

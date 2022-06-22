@@ -1,9 +1,17 @@
 import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
-import AllPlants from './AllPlants.jsx'
-import MyPlants from './MyPlants.jsx'
-
+import AllPlants from './AllPlants';
+import MyPlants from './MyPlants';
+import Home from './Home';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useRouteMatch,
+  useParams
+} from "react-router-dom";
 class App extends React.Component {
   constructor (props) {
     super(props);
@@ -49,7 +57,7 @@ class App extends React.Component {
     });
   }
 
-  onePlant () {
+  onePlant() {
     axios.get('/onePlant')
       .then((res) => {
         // console.log('res?', res);
@@ -60,21 +68,30 @@ class App extends React.Component {
       });
     }
 
-
   render() {
     return (
       <div className="App">
-        <Title>watering me softly with this song</Title>
-        <Title>plant stuuuuff</Title>
-        <Pages>
-          <OnePage>All Plants</OnePage>
-          <OnePage>My Plants</OnePage>
-        </Pages>
+          <Title>watering me softly with this song</Title>
+          <Pages>
+            <OnePage>All Plants</OnePage>
+            <OnePage>My Plants</OnePage>
+          </Pages>
+      <Router>
+        <div>
+          <Link to="/">Home</Link>
+          <Link to="/myplants">My Plants</Link>
+          <Link to="/allplants">All Plants</Link>
+        </div>
 
-        {/* <p>{this.state.currentPlant}</p> */}
-        <MyPlants></MyPlants>
-        <AllPlants plants={this.state.allPlants}></AllPlants>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/myplants" element={<MyPlants />} />
+          <Route path="/allplants" element={<AllPlants />} />
+
+        </Routes>
+      </Router>
       </div>
+
     );
   }
 }
@@ -97,7 +114,6 @@ const OnePage = styled.p`
   cursor: pointer;
   &: hover {
     color: black;
-    box-shadow: green 0px 0px 10px;
     border-radius: 3px;
   };
 `;
