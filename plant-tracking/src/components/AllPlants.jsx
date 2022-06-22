@@ -21,7 +21,7 @@ const AllPlants = ({ plants }) => {
 
   function fetchData() {
     // console.log('plants?', plants)
-    fetch('/allPlants')
+    fetch('http://localhost:4000/allPlants')
     .then((res) => res.json())
     .then((results) => {
       // console.log('results?', results)

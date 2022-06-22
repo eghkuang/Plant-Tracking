@@ -8,9 +8,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useRouteMatch,
-  useParams
+  Link
 } from "react-router-dom";
 class App extends React.Component {
   constructor (props) {
@@ -27,7 +25,7 @@ class App extends React.Component {
   }
 
   allPlants () {
-    axios.get('/allPlants')
+    axios.get('http://localhost:4000/allPlants')
       .then((res) => {
         // console.log('res?', res);
         var list = [];
@@ -58,9 +56,9 @@ class App extends React.Component {
   }
 
   onePlant() {
-    axios.get('/onePlant')
+    axios.get('http://localhost:4000/onePlant')
       .then((res) => {
-        // console.log('res?', res);
+        // console.log('res?????', res);
         // console.log('RES 0?', res.data[0].common[0]);
         this.setState({
           currentPlant: res.data[0].common[0]
@@ -72,16 +70,16 @@ class App extends React.Component {
     return (
       <div className="App">
           <Title>watering me softly with this song</Title>
-          <Pages>
+          {/* <Pages>
             <OnePage>All Plants</OnePage>
             <OnePage>My Plants</OnePage>
-          </Pages>
+          </Pages> */}
       <Router>
-        <div>
+        <Pages>
           <Link to="/">Home</Link>
           <Link to="/myplants">My Plants</Link>
           <Link to="/allplants">All Plants</Link>
-        </div>
+        </Pages>
 
         <Routes>
           <Route path="/" exact element={<Home />} />
@@ -97,15 +95,18 @@ class App extends React.Component {
 }
 
 const Title = styled.h1`
-  margin-left: 20px;
   color: green;
   text-align: center;
+  margin-top: 60px;
 `;
-const Pages = styled.h1`
+const Pages = styled.h2`
   display: flex;
-  margin-left: 15px;
+  margin-top: 60px;
   color: green;
   text-align: center;
+  max-width: auto;
+  justify-content: space-around;
+  align-items: center;
 `;
 const OnePage = styled.p`
   margin-left: 15px;
