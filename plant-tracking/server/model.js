@@ -1,4 +1,5 @@
 const { key, host } = require('../config.js');
+// @flow
 
 const allPlants = {
     method: 'GET',

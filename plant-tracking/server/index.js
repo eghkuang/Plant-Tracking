@@ -1,15 +1,12 @@
-const path = require('path');
 const express = require('express');
 const axios = require("axios");
 const db = require('./model.js');
 
 const app = express();
-// const PORT = 4000;
+const PORT = 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client/dist')));
-
 
 app.get('/api/allPlants', (req, res) => {
     //TODO - your code here!
@@ -55,6 +52,6 @@ app.get('/api/onePlant', (req, res) => {
 
 //TODO - add additional route handlers as necessary
 
-// app.listen(PORT, () => {
-//     console.log(`listening on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
+});
