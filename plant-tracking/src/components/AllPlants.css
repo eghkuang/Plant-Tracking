@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  list-style-type: none;
+  margin: 50px;
+}
+.pagination a {
+  cursor: pointer;
+  list-style-type: none;
+  margin: 10px 10px;
+  color: green;
+}
+
+.previousLabel {
+  padding: 50px;
+}
+
+.nextLabel {
+  padding: 50px;
+}
+
+.pagination__link--active {
+  color: black;
+}

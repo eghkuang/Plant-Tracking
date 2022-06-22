@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import styled from 'styled-components';
 import AllPlants from './AllPlants.jsx'
+import MyPlants from './MyPlants.jsx'
 
 class App extends React.Component {
   constructor (props) {
@@ -55,7 +56,7 @@ class App extends React.Component {
         // console.log('RES 0?', res.data[0].common[0]);
         this.setState({
           currentPlant: res.data[0].common[0]
-        }); 
+        });
       });
     }
 
@@ -66,12 +67,13 @@ class App extends React.Component {
         <Title>watering me softly with this song</Title>
         <Title>plant stuuuuff</Title>
         <Pages>
-          <OnePage>My Plants</OnePage>
           <OnePage>All Plants</OnePage>
+          <OnePage>My Plants</OnePage>
         </Pages>
 
         {/* <p>{this.state.currentPlant}</p> */}
-        <AllPlants data={this.state.allPlants}></AllPlants>
+        <MyPlants></MyPlants>
+        <AllPlants plants={this.state.allPlants}></AllPlants>
       </div>
     );
   }

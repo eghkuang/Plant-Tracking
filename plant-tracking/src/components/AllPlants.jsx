@@ -1,41 +1,91 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import ReactPaginate from 'react-paginate';
+// import Pagination from './Pagination.jsx';
+import './AllPlants.css';
 
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
+// import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
 
-const AllPlants = ({ data }) => {
+const PER_PAGE = 10;
+
+const AllPlants = ({ plants }) => {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
+    // console.log('plants?', plants)
+    fetch('/allPlants')
+    .then((res) => res.json())
+    .then((results) => {
+      console.log('results?', results)
+      setData(results);
+    })
+
+  }
+
+  // eslint-disable-next-line no-lone-blocks
+  function handlePageClick({ selected: selectedPage }) {
+    console.log('selected page', selectedPage);
+    setCurrentPage(selectedPage);
+  }
+
+  const offset = currentPage * PER_PAGE;
+
+  const currentPageData = data
+    .slice(offset, offset + PER_PAGE)
+    .map((plant, i) =>
+      <EachPlant key={i}>
+        <EachPlantInfo>{ plant.common[0] }</EachPlantInfo>
+        <EachPlantInfo>{ plant.common[1] }</EachPlantInfo>
+        <IdealLight>{ plant.ideallight }</IdealLight>
+        <EachPlantWatering>{ plant.watering }</EachPlantWatering>
+        <EachPlantInfo>{ plant.toleratedlight }</EachPlantInfo>
+        <Stack direction="row" spacing={2} >
+          <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}} >
+            Add
+          </Button>
+        </Stack>
+      </EachPlant>
+     );
+
+  const pageCount = Math.ceil(data.length / PER_PAGE);
+
   return (
     <div className="plantlist">
-    <Stack spacing={2} sx={{ width: 300 }}>
-      <Autocomplete
-        searchplants="true"
-        id="searchbar-for-plants"
-        disableClearable
-        options={data.map((option) => option.name)}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Search"
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-        )}
-      />
-    </Stack>
+
+      {/* <Pagination platData={plants} ></Pagination> */}
       <Headers>
         <EachPlantInfo>Name</EachPlantInfo>
         <EachPlantInfo>Alternate Name</EachPlantInfo>
         <IdealLight>Ideal Light</IdealLight>
         <EachPlantWatering>Watering</EachPlantWatering>
         <EachPlantInfo>Tolerated Light</EachPlantInfo>
+        <EachPlantInfo>Add to Favorites</EachPlantInfo>
       </Headers>
-          {/* {console.log('aaaghhhh',this.state.allPlants)} */}
+      {currentPageData}
+      {/* <PaginateContainer> */}
+        <ReactPaginate
+          previousLabel={"← Previous"}
+          nextLabel={"Next →"}
+          pageCount={pageCount}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          previousLinkClassName={"pagination__link"}
+          nextLinkClassName={"pagination__link"}
+          disabledClassName={"pagination__link--disabled"}
+          activeClassName={"pagination__link--active"}
+        />
+      {/* </PaginateContainer> */}
+{/*
       <div>
-        {data.map((plant, i) => {
+        {plants.map((plant, i) => {
           // console.log('hello?');
           return (
             <EachPlant key={i}>
@@ -44,10 +94,15 @@ const AllPlants = ({ data }) => {
               <IdealLight>{ plant.idealLight }</IdealLight>
               <EachPlantWatering>{ plant.watering }</EachPlantWatering>
               <EachPlantInfo>{ plant.toleratedLight }</EachPlantInfo>
+              <Stack direction="row" spacing={2} >
+                <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}} >
+                  Add
+                </Button>
+              </Stack>
             </EachPlant>
           )
         })}
-      </div>
+      </div> */}
     </div>
   )
 }
@@ -55,28 +110,33 @@ const AllPlants = ({ data }) => {
 
 const Headers = styled.div`
   display: flex;
-  margin-top: 10px;
-  margin-left: 10px;
   flex: 0 0 auto;
+  margin-left: 20px;
   text-align: center;
   font-size: 15px;
 `;
 const EachPlant = styled.div`
   display: flex;
-  margin-left: 20px;
+  margin: 20px;
   border-top: 2px solid;
-  margin-bottom: 20px;
   text-align: center;
 `;
 const EachPlantInfo = styled.div`
-  width: 15%;
+  width: 8%;
+  margin: 20px;
 `;
 const IdealLight = styled.div`
-  width: 25%;
+  width: 30%;
+  margin: 20px;
+
 `;
 const EachPlantWatering = styled.div`
-  width: 40%;
+  width: 35%;
+  margin: 20px;
 `;
-
+// const PaginateContainer = styled.div`
+//   display: flex;
+//   cursor: pointer;
+// `;
 
 export default AllPlants;
