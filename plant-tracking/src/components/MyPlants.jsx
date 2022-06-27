@@ -5,22 +5,10 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 
 // const MyPlants = () => {
-const MyPlants = ({ data, setData }) => {
-  console.log('data',data);
+const MyPlants = ({ data }) => {
+  console.log('data', data);
 
   // useEffect(() => {
-  //   const fetchData = () => {
-  //     // console.log('plants?', plants)
-  //     axios.get('/dbPlants')
-  //     .then((results) => {
-  //       console.log('results.data?', results.data)
-  //       console.log('results?', results)
-  //       setData(results);
-  //     })
-  //     .catch((err) => {
-  //       console.log('error', err)
-  //     })
-  //   }
   //   fetchData();
   // },[]);
 
@@ -36,41 +24,19 @@ const MyPlants = ({ data, setData }) => {
   //   })
   // }
 
-  // const data = [
-    // {
-    //   id: 3,
-    //   plantName: plant.common[0],
-    //   otherName: plant.common[1],
-    //   idealLight: plant.ideallight,
-    //   watering: plant.watering,
-    //   toleratedLight: plant.toleratedlight,
-    //   tempMax: plant.tempmax.fahrenheit,
-    //   tempMin: plant.tempmin.fahrenheit,
-    //   latin: plant.latin,
-    // },
-    // {
-    //   id: 1,
-    //   plantName: plant.common[0],
-    //   otherName: plant.common[1],
-    //   idealLight: plant.ideallight,
-    //   watering: plant.watering,
-    //   toleratedLight: plant.toleratedlight,
-    //   tempMax: plant.tempmax.fahrenheit,
-    //   tempMin: plant.tempmin.fahrenheit,
-    //   latin: plant.latin,
-    // },
-    // {
-    //   id: 4,
-    //   plantName: plant.common[0],
-    //   otherName: plant.common[1],
-    //   idealLight: plant.ideallight,
-    //   watering: plant.watering,
-    //   toleratedLight: plant.toleratedlight,
-    //   tempMax: plant.tempmax.fahrenheit,
-    //   tempMin: plant.tempmin.fahrenheit,
-    //   latin: plant.latin,
-    // }
-  // ]
+  function removePlant(e) {
+    e.preventDefault();
+    let id = e.target.getAttribute("id");
+    console.log('hello', e.target.getAttribute('id'));
+    // console.log('hello', e);
+    axios.delete('/dbPlants', {data: {'id': id}})
+      .then((res) => {
+        console.log('did delete plant work?', res)
+      })
+      .catch((err) => {
+        console.log('delete err!!')
+      })
+  }
 
   return (
     <div>
@@ -81,7 +47,7 @@ const MyPlants = ({ data, setData }) => {
         <IdealLight>Ideal Light</IdealLight>
         <EachPlantWatering>Watering</EachPlantWatering>
         <EachPlantInfo>Tolerated Light</EachPlantInfo>
-        <EachPlantInfo>Add to Favorites</EachPlantInfo>
+        <EachPlantInfo>Remove Plant?</EachPlantInfo>
       </Headers>
       {!data
       ? <h2>Add some Plants!</h2>
@@ -94,8 +60,9 @@ const MyPlants = ({ data, setData }) => {
           <EachPlantWatering>{ plant.watering }</EachPlantWatering>
           <EachPlantInfo>{ plant.toleratedLight }</EachPlantInfo>
           <Stack direction="row" spacing={2} >
-            <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}} >
-              Add
+            <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}}
+            id={plant.id} onClick={(e) => removePlant(e)} >
+              DELETE
             </Button>
           </Stack>
         </EachPlant>

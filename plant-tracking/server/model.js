@@ -37,7 +37,6 @@ const myPlants = (callback) => {
 
 const addPlant = (req, callback) => {
     console.log('what is req', req)
-    console.log('db:', db);
     let id = {id: req.id}
     db.findOneAndUpdate(id, req, {
       upsert: true
@@ -52,4 +51,18 @@ const addPlant = (req, callback) => {
       })
   };
 
-module.exports = { allPlants, onePlant, myPlants, addPlant };
+const deletePlant = (req, callback) => {
+    console.log('delete what is req', req)
+    let id = {id: req.id}
+    db.findOneAndDelete(id)
+      .then((results) => {
+        console.log('db delete results', results);
+        callback(null, results);
+      })
+      .catch((err) => {
+        console.log('db delete error', err)
+        callback(err);
+      })
+  };
+
+module.exports = { allPlants, onePlant, myPlants, addPlant, deletePlant };

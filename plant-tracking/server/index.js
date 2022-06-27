@@ -93,6 +93,18 @@ app.post('/dbPlants', (req, res) => {
     });
 });
 
+app.delete('/dbPlants', (req, res) => {
+    console.log('dbplant req? delete?', req.body)
+    model.deletePlant(req.body, (err, results) => {
+        console.log('index delete plant data?', results);
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(results);
+        }
+    });
+});
+
 
 
 

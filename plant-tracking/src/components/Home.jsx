@@ -4,7 +4,7 @@ import styled from "styled-components";
 const Home = () => {
   return (
     <div>
-      <Title>Welcome! Let's find some plants!</Title>
+      <Title>Welcome! Let's find you some plants!</Title>
     </div>
   )
 }
