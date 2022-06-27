@@ -1,5 +1,6 @@
 const { key, host } = require('../config.js');
-const mdb = require('./mongoDb');
+const db = require('./mongoDb');
+const mongoose = require ('mongoose')
 
 // @flow
 
@@ -23,9 +24,9 @@ const onePlant = {
 
 const myPlants = (callback) => {
     console.log('hello??? my plants server?');
-    mdb.myPlants.find({})
+    db.find({})
         .then((results) => {
-        console.log('results', results);
+        console.log('model myplants results', results);
         callback(null, results);
         })
         .catch((err) => {
@@ -34,4 +35,21 @@ const myPlants = (callback) => {
         })
   };
 
-module.exports = { allPlants, onePlant };
+const addPlant = (req, callback) => {
+    console.log('what is req', req)
+    console.log('db:', db);
+    let id = {id: req.id}
+    db.findOneAndUpdate(id, req, {
+      upsert: true
+    })
+      .then((results) => {
+        console.log('results', results);
+        callback(null, results);
+      })
+      .catch((err) => {
+        console.log('error', err)
+        callback(err);
+      })
+  };
+
+module.exports = { allPlants, onePlant, myPlants, addPlant };

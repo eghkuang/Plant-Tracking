@@ -8,10 +8,11 @@ import './AllPlants.css';
 // import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 const PER_PAGE = 10;
 
-const AllPlants = ({ plants }) => {
+const AllPlants = ({ allPlants }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [data, setData] = useState([]);
 
@@ -20,7 +21,7 @@ const AllPlants = ({ plants }) => {
   }, []);
 
   function fetchData() {
-    // console.log('plants?', plants)
+    // console.log('allPlants?', allPlants)
     fetch('http://localhost:4000/allPlants')
     .then((res) => res.json())
     .then((results) => {
@@ -34,19 +35,36 @@ const AllPlants = ({ plants }) => {
     setCurrentPage(selectedPage);
   }
 
+  function handleAdd(e) {
+    e.preventDefault();
+    let id = e.target.getAttribute("id");
+    // console.log('hello', e.target.getAttribute('id'));
+    console.log('plants', allPlants);
+    console.log('PLANT', allPlants[id]);
+    // console.log('allPlantsS', allPlants);
+    axios.post('/dbPlants', allPlants[id])
+      .then((response) => {
+        console.log('response data:', response);
+      })
+      .catch((err) => {
+        console.log('submit err:', err);
+      })
+  }
+
   const offset = currentPage * PER_PAGE;
 
   const currentPageData = data
     .slice(offset, offset + PER_PAGE)
     .map((plant, i) =>
       <EachPlant key={i}>
+        <EachPlantInfo>{ plant.id + 1 }</EachPlantInfo>
         <EachPlantInfo>{ plant.common[0] }</EachPlantInfo>
         <EachPlantInfo>{ plant.common[1] }</EachPlantInfo>
         <IdealLight>{ plant.ideallight }</IdealLight>
         <EachPlantWatering>{ plant.watering }</EachPlantWatering>
         <EachPlantInfo>{ plant.toleratedlight }</EachPlantInfo>
         <Stack direction="row" spacing={2} >
-          <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}} >
+          <Button variant="contained" color="success" id={plant.id} onClick={(e) => handleAdd(e)}style={{margin: '10px', display: "flex"}} >
             Add
           </Button>
         </Stack>
@@ -71,6 +89,7 @@ const AllPlants = ({ plants }) => {
           activeClassName={"pagination__link--active"}
         />
       <Headers>
+        <EachPlantInfo>Plant No.</EachPlantInfo>
         <EachPlantInfo>Name</EachPlantInfo>
         <EachPlantInfo>Alternate Name</EachPlantInfo>
         <IdealLight>Ideal Light</IdealLight>
@@ -120,7 +139,7 @@ const AllPlants = ({ plants }) => {
 const Headers = styled.div`
   display: flex;
   flex: 0 0 auto;
-  margin-left: 20px;
+  margin-left: 10px;
   text-align: center;
   font-size: 15px;
 `;

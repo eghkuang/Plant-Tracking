@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require("axios");
-const db = require('./model');
+const model = require('./model');
 const cors = require('cors');
 
 const app = express();
@@ -25,27 +25,27 @@ app.get('/allPlants', (req, res) => {
     //         res.status(200).send(results.data);
     //     }
     // });
-    axios.request(db.allPlants)
+    axios.request(model.allPlants)
         .then(function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             res.status(200).send(response.data);
         })
         .catch(function (error) {
-            console.error(error);
+            // console.error(error);
             res.status(404).send(error);
         });
 });
 
 app.get('/onePlant', (req, res) => {
     //TODO - your code here!
-    // db.onePlant(req.query, (err, results) => {
+    // model.onePlant(req.query, (err, results) => {
     //     if (err) {
     //         res.status(500).send(err);
     //     } else {
     //         res.status(200).send(results);
     //     }
     // });
-    axios.request(db.onePlant)
+    axios.request(model.onePlant)
         .then(function (response) {
             console.log(response.data);
             res.status(200).send(response.data);
@@ -57,19 +57,41 @@ app.get('/onePlant', (req, res) => {
 });
 
 //--------to mongo server----------------
+// app.get('/modelPlants', (req, res) => {
+//     axios.request(model.allPlants)
+//     .then(function (response) {
+//     console.log(response.data);
+//     res.status(200).send(response.data);
+//     })
+//     .catch(function (error) {
+//         console.error(error);
+//         res.status(404).send(error);
+//     });
+// });
+
 app.get('/dbPlants', (req, res) => {
-    axios.request(db.allPlants)
-    .then(function (response) {
-    console.log(response.data);
-    res.status(200).send(response.data);
-    })
-    .catch(function (error) {
-        console.error(error);
-        res.status(404).send(error);
+    // console.log('dbplant req?', req)
+    model.myPlants((err, results) => {
+        console.log('index myplant data?', results);
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(results);
+        }
     });
 });
 
-
+app.post('/dbPlants', (req, res) => {
+    // console.log('dbplant req?', req.header)
+    model.addPlant(req.body, (err, results) => {
+        console.log('plant data?', results);
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(results);
+        }
+    });
+});
 
 
 
