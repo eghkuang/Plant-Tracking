@@ -38,6 +38,16 @@ const MyPlants = ({ data }) => {
       })
   }
 
+  const watering = (plant) => {
+    if (plant.watering === "Keep moist between watering. Must not be dry between watering") {
+      return ('2 Days')
+    } else if (plant.watering === "Water only when the soil is dry. Must be dry between watering") {
+      return ('8 Days')
+    } else if (plant.watering === 'Water when soil is half dry. Change water in the vase regularly.' || 'Keep moist between watering. Water when soil is half dry.') {
+      return ('5 Days')
+    }
+  }
+
   return (
     <div>
       <Headers>
@@ -46,6 +56,7 @@ const MyPlants = ({ data }) => {
         <EachPlantInfo>Alternate Name</EachPlantInfo>
         <IdealLight>Ideal Light</IdealLight>
         <EachPlantWatering>Watering</EachPlantWatering>
+        <EachPlantInfo>Recommended Watering</EachPlantInfo>
         <EachPlantInfo>Tolerated Light</EachPlantInfo>
         <EachPlantInfo>Remove Plant?</EachPlantInfo>
       </Headers>
@@ -58,6 +69,7 @@ const MyPlants = ({ data }) => {
           <EachPlantInfo>{ plant.otherName }</EachPlantInfo>
           <IdealLight>{ plant.idealLight }</IdealLight>
           <EachPlantWatering>{ plant.watering }</EachPlantWatering>
+          <EachPlantInfo>{ watering(plant) }</EachPlantInfo>
           <EachPlantInfo>{ plant.toleratedLight }</EachPlantInfo>
           <Stack direction="row" spacing={2} >
             <Button variant="contained" color="success" style={{margin: '10px', display: "flex"}}

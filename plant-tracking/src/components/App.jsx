@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import AllPlants from './AllPlants';
 import MyPlants from './MyPlants';
 import Home from './Home';
+import background from './background.jpg'
+import './App.css';
 import {
   BrowserRouter as Router,
   Routes,
@@ -57,7 +59,11 @@ export default function App() {
 
     return (
       <div className="App">
-      <Title>watering me softly with these plants</Title>
+      <div style={{
+        backgroundImage: `url(${background})`
+      }}>
+        </div>
+      <Title>howdy I'm thirsty</Title>
       <Router>
         <Pages>
           <Link to="/">Home</Link>

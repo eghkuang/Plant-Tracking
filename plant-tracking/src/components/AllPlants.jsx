@@ -71,6 +71,7 @@ const AllPlants = ({ allPlants }) => {
       </EachPlant>
      );
 
+
   const pageCount = Math.ceil(data.length / PER_PAGE);
 
   return (
